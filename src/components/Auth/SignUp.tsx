@@ -1,10 +1,18 @@
 import { Link } from 'react-router-dom';
+import useForm from '../../hooks/useForm';
+import { AuthErrors, SignupInputFields } from '../../types';
+import { authValidator } from '../../utils/validators';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
 const SignUp = () => {
+  const [values, errors, handleChange, handleSubmit] = useForm<
+    SignupInputFields,
+    AuthErrors
+  >({ email: '', password: '', password2: '' }, authValidator);
+
   return (
     <div className={styles['form-container']} style={{ marginTop: '5rem' }}>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Get started with us today!</h1>
         <div className={styles['form-inputs']}>
           <label htmlFor='email' className={styles['form-label']}>
@@ -16,7 +24,10 @@ const SignUp = () => {
             className={styles['form-input']}
             name='email'
             placeholder='Enter your email'
+            value={values.email}
+            onChange={handleChange}
           />
+          {errors?.email && <p>{errors.email}</p>}
         </div>
         <div className={styles['form-inputs']}>
           <label htmlFor='password' className={styles['form-label']}>
@@ -28,7 +39,10 @@ const SignUp = () => {
             className={styles['form-input']}
             name='password'
             placeholder='Enter your password'
+            value={values.password}
+            onChange={handleChange}
           />
+          {errors?.password && <p>{errors.password}</p>}
         </div>
         <div className={styles['form-inputs']}>
           <label htmlFor='password2' className={styles['form-label']}>
@@ -40,7 +54,10 @@ const SignUp = () => {
             className={styles['form-input']}
             name='password2'
             placeholder='Confirm your password'
+            value={values.password2}
+            onChange={handleChange}
           />
+          {errors?.password2 && <p>{errors.password2}</p>}
         </div>
         <button className={styles['form-input-btn']} type='submit'>
           Sign up

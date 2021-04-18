@@ -1,14 +1,21 @@
 import { Link } from 'react-router-dom';
-
+import useForm from '../../hooks/useForm';
+import { AuthErrors, LoginInputFields } from '../../types';
+import { authValidator } from '../../utils/validators';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
 const LogIn = () => {
+  const [values, errors, handleChange, handleSubmit] = useForm<
+    LoginInputFields,
+    AuthErrors
+  >({ email: '', password: '' }, authValidator);
+
   return (
     <div
       className={`${styles['form-container']} ${styles['form-container-login']}`}
       style={{ marginTop: '5rem' }}
     >
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Welcome back!</h1>
         <div className={styles['form-inputs']}>
           <label htmlFor='email' className={styles['form-label']}>
@@ -20,7 +27,10 @@ const LogIn = () => {
             className={styles['form-input']}
             name='email'
             placeholder='Enter your email'
+            value={values.email}
+            onChange={handleChange}
           />
+          {errors?.email && <p>{errors.email}</p>}
         </div>
         <div className={styles['form-inputs']}>
           <label htmlFor='password' className={styles['form-label']}>
@@ -32,7 +42,10 @@ const LogIn = () => {
             className={styles['form-input']}
             name='password'
             placeholder='Enter your password'
+            value={values.password}
+            onChange={handleChange}
           />
+          {errors?.password && <p>{errors.password}</p>}
         </div>
         <button className={styles['form-input-btn']} type='submit'>
           Log In
