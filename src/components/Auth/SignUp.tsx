@@ -2,18 +2,24 @@ import { Link } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
 import { AuthErrors, SignupInputFields } from '../../types';
 import { authValidator } from '../../utils/validators';
+import { useAuth } from '../../context/Authentication/AuthenticationContext';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
 const SignUp = () => {
+  const { signup } = useAuth();
+
   const [values, errors, handleChange, handleSubmit] = useForm<
     SignupInputFields,
     AuthErrors
-  >({ email: '', password: '', password2: '' }, authValidator);
+  >({ email: '', password: '', password2: '' }, authValidator, signup);
 
   return (
     <div className={styles['form-container']} style={{ marginTop: '5rem' }}>
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Get started with us today!</h1>
+        {errors?.serverError && (
+          <p className={styles['error-message']}>{errors.serverError}</p>
+        )}
         <div className={styles['form-inputs']}>
           <label htmlFor='email' className={styles['form-label']}>
             Email

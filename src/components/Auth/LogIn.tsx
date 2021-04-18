@@ -2,13 +2,16 @@ import { Link } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
 import { AuthErrors, LoginInputFields } from '../../types';
 import { authValidator } from '../../utils/validators';
+import { useAuth } from '../../context/Authentication/AuthenticationContext';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
 const LogIn = () => {
+  const { login } = useAuth();
+
   const [values, errors, handleChange, handleSubmit] = useForm<
     LoginInputFields,
     AuthErrors
-  >({ email: '', password: '' }, authValidator);
+  >({ email: '', password: '' }, authValidator, login);
 
   return (
     <div
@@ -17,6 +20,9 @@ const LogIn = () => {
     >
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Welcome back!</h1>
+        {errors?.serverError && (
+          <p className={styles['error-message']}>{errors.serverError}</p>
+        )}
         <div className={styles['form-inputs']}>
           <label htmlFor='email' className={styles['form-label']}>
             Email

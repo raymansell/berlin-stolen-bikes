@@ -11,4 +11,5 @@ export interface AuthErrors {
   email?: string;
   password?: string;
   password2?: string;
+  serverError?: string;
 }

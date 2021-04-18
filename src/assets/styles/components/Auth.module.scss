@@ -45,6 +45,15 @@
   }
 }
 
+.error-message {
+  font-size: 0.8rem;
+  margin-bottom: 0.2rem;
+  color: #f00e0e;
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
 .form-label {
   display: inline-block;
   font-size: 0.8rem;
