@@ -4,7 +4,7 @@ export const LOG_OUT = 'log-out';
 
 export type Token = string | null;
 export type User = { token: Token };
-export type State = { user: User };
+export type State = { user: User; redirectToReferrer: boolean };
 
 export type Action =
   | {

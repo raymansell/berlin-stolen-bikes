@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
 import { AuthErrors, SignupInputFields } from '../../types';
 import { authValidator } from '../../utils/validators';
@@ -6,12 +6,19 @@ import { useAuth } from '../../context/Authentication/AuthenticationContext';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
 const SignUp = () => {
-  const { signup } = useAuth();
+  const {
+    signup,
+    state: { user },
+  } = useAuth();
 
   const [values, errors, handleChange, handleSubmit] = useForm<
     SignupInputFields,
     AuthErrors
   >({ email: '', password: '', password2: '' }, authValidator, signup);
+
+  if (user?.token) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <div className={styles['form-container']} style={{ marginTop: '5rem' }}>

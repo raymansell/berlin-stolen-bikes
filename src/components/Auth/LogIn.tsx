@@ -1,17 +1,32 @@
-import { Link } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import useForm from '../../hooks/useForm';
 import { AuthErrors, LoginInputFields } from '../../types';
 import { authValidator } from '../../utils/validators';
 import { useAuth } from '../../context/Authentication/AuthenticationContext';
 import styles from '../../assets/styles/components/Auth.module.scss';
 
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
+
 const LogIn = () => {
-  const { login } = useAuth();
+  const {
+    login,
+    state: { user, redirectToReferrer },
+  } = useAuth();
 
   const [values, errors, handleChange, handleSubmit] = useForm<
     LoginInputFields,
     AuthErrors
   >({ email: '', password: '' }, authValidator, login);
+
+  const { state } = useLocation<LocationState>();
+
+  if (redirectToReferrer === true || user?.token) {
+    return <Redirect to={state?.from || '/'} />;
+  }
 
   return (
     <div

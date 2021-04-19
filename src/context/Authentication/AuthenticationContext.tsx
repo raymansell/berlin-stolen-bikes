@@ -11,6 +11,7 @@ const user: User = localStorage.getItem('user')
 
 const initialState: State = {
   user,
+  redirectToReferrer: false,
 };
 
 const AuthenticationContext = createContext<

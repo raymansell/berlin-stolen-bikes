@@ -10,7 +10,11 @@ const reducer = (state: State, action: Action) => {
           token: action.payload.token,
         })
       );
-      return { ...state, user: { token: action.payload.token } };
+      return {
+        ...state,
+        user: { token: action.payload.token },
+        redirectToReferrer: true,
+      };
     }
     case LOG_OUT:
       localStorage.removeItem('user');
