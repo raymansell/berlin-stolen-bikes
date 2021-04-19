@@ -1,0 +1,55 @@
+:root {
+  --bike-card-width: 200px;
+  --bike-card-aspect-ratio: 1;
+}
+
+.bike-card {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  background-color: #eeeeee;
+  border-radius: 0.8rem;
+  padding: 1rem;
+  margin: 1rem 1rem 1.5rem 1rem;
+  box-shadow: 0 7px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+
+  .bike-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .bike-detail {
+    margin-bottom: 0.3rem;
+  }
+
+  .bike-img-container {
+    display: grid;
+    place-items: center;
+    margin-bottom: 0.5rem;
+
+    .bike-img {
+      width: var(--bike-card-width);
+      height: calc(var(--bike-card-width) / var(--bike-card-aspect-ratio));
+    }
+  }
+}
+
+@media screen and (min-width: 530px) {
+  :root {
+    --bike-card-width: 150px;
+  }
+  .bike-card {
+    flex-direction: row;
+
+    .bike-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bike-img-container {
+      margin-right: 1rem;
+    }
+  }
+}

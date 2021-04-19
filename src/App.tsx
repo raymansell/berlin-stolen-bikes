@@ -9,7 +9,7 @@ import {
 } from 'react-router-dom';
 import SignUp from './components/Auth/SignUp';
 import LogIn from './components/Auth/LogIn';
-import UserList from './components/UserList';
+import BikesList from './components/BikesList';
 import {
   AuthenticationProvider,
   useAuth,
@@ -50,8 +50,8 @@ const App = () => {
           <Route exact path='/login'>
             <LogIn />
           </Route>
-          <PrivateRoute exact path='/users'>
-            <UserList />
+          <PrivateRoute exact path='/bikes'>
+            <BikesList />
           </PrivateRoute>
         </Switch>
       </Router>
