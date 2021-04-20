@@ -6,7 +6,6 @@
 .bike-card {
   display: flex;
   flex-direction: column;
-  max-width: 100%;
   background-color: #eeeeee;
   border-radius: 0.8rem;
   padding: 1rem;
@@ -51,5 +50,11 @@
     .bike-img-container {
       margin-right: 1rem;
     }
+  }
+}
+
+@media screen and (min-width: 865px) {
+  .bike-card {
+    width: 800px;
   }
 }

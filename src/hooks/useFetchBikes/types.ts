@@ -19,12 +19,14 @@ export type BikeTheft = {
 
 export const MAKE_REQUEST = 'make-request';
 export const GET_DATA = 'get-data';
+export const UPDATE_HAS_NEXT_PAGE = 'update-has-next-page';
 export const ERROR = 'error';
 
 export type State = {
   bikes: BikeTheft[];
   isLoading: boolean;
   error: Error | null;
+  hasNextPage: boolean;
 };
 
 export type Action =
@@ -34,6 +36,10 @@ export type Action =
   | {
       type: typeof GET_DATA;
       payload: { bikes: BikeTheft[] };
+    }
+  | {
+      type: typeof UPDATE_HAS_NEXT_PAGE;
+      payload: { hasNextPage: boolean };
     }
   | {
       type: typeof ERROR;

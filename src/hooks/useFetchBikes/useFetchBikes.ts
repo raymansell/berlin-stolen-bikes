@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from 'react';
+import { stringify } from 'query-string';
 import { useAuth } from '../../context/Authentication/AuthenticationContext';
 import {
   APIParams,
@@ -7,15 +8,26 @@ import {
   MAKE_REQUEST,
   GET_DATA,
   ERROR,
+  UPDATE_HAS_NEXT_PAGE,
 } from './types';
+
+const initialState: State = {
+  bikes: [],
+  isLoading: true,
+  error: null,
+  hasNextPage: false,
+};
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case MAKE_REQUEST: {
-      return { ...state, isLoading: true, bikes: [] };
+      return initialState;
     }
     case GET_DATA: {
       return { ...state, isLoading: false, bikes: action.payload.bikes };
+    }
+    case UPDATE_HAS_NEXT_PAGE: {
+      return { ...state, hasNextPage: action.payload.hasNextPage };
     }
     case ERROR: {
       return {
@@ -30,13 +42,10 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const initialState: State = {
-  bikes: [],
-  isLoading: true,
-  error: null,
-};
+const BASE_URL =
+  'https://bikewise.org:443/api/v2/incidents?per_page=10&incident_type=theft';
 
-const useFetchBikes = (): State => {
+const useFetchBikes = (params: APIParams, page: number): State => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const {
@@ -46,18 +55,15 @@ const useFetchBikes = (): State => {
   useEffect(() => {
     dispatch({ type: MAKE_REQUEST });
 
-    const abortCtrl = new AbortController();
+    const abortCtrl1 = new AbortController();
 
     const opts = {
-      signal: abortCtrl.signal,
+      signal: abortCtrl1.signal,
       // asuming the Bikewise API required authorizatin to fetch the bikes list
       headers: { Authorization: `Bearer ${user.token}` },
     };
 
-    fetch(
-      'https://bikewise.org:443/api/v2/incidents?per_page=10&incident_type=theft',
-      opts
-    )
+    fetch(`${BASE_URL}&${stringify({ ...params, page })}`, opts)
       .then((res) => {
         if (res.ok) {
           return res.json();
@@ -72,8 +78,32 @@ const useFetchBikes = (): State => {
         dispatch({ type: ERROR, payload: { error: err } });
       });
 
-    return () => abortCtrl.abort();
-  }, [user.token]);
+    const abortCtrl2 = new AbortController();
+    const opts2 = { ...opts, signal: abortCtrl2.signal };
+
+    fetch(`${BASE_URL}&${stringify({ ...params, page: page + 1 })}`, opts2)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(`Error: ${res.status}`);
+      })
+      .then((data) =>
+        dispatch({
+          type: UPDATE_HAS_NEXT_PAGE,
+          payload: { hasNextPage: data.incidents.length !== 0 },
+        })
+      )
+      .catch((err) => {
+        if (err.name === 'AbortError') return;
+        dispatch({ type: ERROR, payload: { error: err } });
+      });
+
+    return () => {
+      abortCtrl1.abort();
+      abortCtrl2.abort();
+    };
+  }, [user.token, params, page]);
 
   return state;
 };
