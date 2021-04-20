@@ -1,3 +1,5 @@
+@import '../variables';
+
 .pagination-wrapper {
   display: flex;
   justify-content: center;
@@ -17,7 +19,7 @@
   margin: 0 0.25rem;
   border-radius: 50%;
   font-weight: 600;
-  color: rgb(110, 110, 110);
+  color: $secondaryBg;
   &:hover {
     text-decoration: underline;
   }

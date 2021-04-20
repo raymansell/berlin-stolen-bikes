@@ -1,14 +1,28 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
+import dayjs from 'dayjs';
 import { APIParams } from '../hooks/useFetchBikes/types';
 import useFetchBikes from '../hooks/useFetchBikes/useFetchBikes';
 import BikeCard from './BikeCard';
 import BikesPagination from './BikesPagination';
+import SearchForm from './SearchForm';
 
 const BikesList = () => {
   const [params, setParams] = useState<APIParams>({});
   const [page, setPage] = useState(1);
 
   const { bikes, isLoading, hasNextPage, error } = useFetchBikes(params, page);
+
+  const handleParamChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { type, name: param, value } = e.target;
+    setPage(1);
+    setParams((prevParams) => {
+      if (type === 'date') {
+        // dates are number typed as per the APIParams interface
+        return { ...prevParams, [param]: dayjs(value).unix() };
+      }
+      return { ...prevParams, [param]: value };
+    });
+  };
 
   return (
     <div
@@ -18,6 +32,8 @@ const BikesList = () => {
         alignItems: 'center',
       }}
     >
+      <h1>berlin stolen bikes</h1>
+      <SearchForm params={params} onParamChange={handleParamChange} />
       <BikesPagination
         page={page}
         setPage={setPage}
@@ -25,6 +41,7 @@ const BikesList = () => {
       />
       {isLoading && <h1>loading...</h1>}
       {error && <h4>Oops something went wrong. Try refreshing.</h4>}
+      {!isLoading && bikes.length === 0 && <h3>Results not found.</h3>}
       {bikes.map((bike) => (
         <BikeCard key={bike.id} bike={bike} />
       ))}

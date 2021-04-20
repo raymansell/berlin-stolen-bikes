@@ -1,7 +1,7 @@
 export type APIParams = {
-  description?: string;
-  occurred_after?: string;
-  occurred_before?: string;
+  query?: string;
+  occurred_after?: number;
+  occurred_before?: number;
 };
 
 export type BikeTheft = {
