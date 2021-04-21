@@ -5,6 +5,7 @@ import useFetchBikes from '../hooks/useFetchBikes/useFetchBikes';
 import BikeCard from './BikeCard';
 import BikesPagination from './BikesPagination';
 import SearchForm from './SearchForm';
+import SkeletonCard from './skeletons/SkeletonCard';
 
 const BikesList = () => {
   const [params, setParams] = useState<APIParams>({});
@@ -39,9 +40,10 @@ const BikesList = () => {
         setPage={setPage}
         hasNextPage={hasNextPage}
       />
-      {isLoading && <h1>loading...</h1>}
+      {isLoading && [1, 2, 3, 4, 5].map((n) => <SkeletonCard key={n} />)}
+
       {error && <h4>Oops something went wrong. Try refreshing.</h4>}
-      {!isLoading && bikes.length === 0 && <h3>Results not found.</h3>}
+      {!isLoading && bikes.length === 0 && <h3>No results found</h3>}
       {bikes.map((bike) => (
         <BikeCard key={bike.id} bike={bike} />
       ))}
