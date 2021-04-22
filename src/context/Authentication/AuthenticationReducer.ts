@@ -18,7 +18,12 @@ const reducer = (state: State, action: Action) => {
     }
     case LOG_OUT:
       localStorage.removeItem('user');
-      return { ...state, token: null };
+      return {
+        ...state,
+        user: { token: null },
+        // if kept true, an infinite loop is created between "/" and "/login" routes.
+        redirectToReferrer: false,
+      };
     default:
       return state;
   }
