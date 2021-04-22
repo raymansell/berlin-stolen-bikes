@@ -50,9 +50,27 @@ const App = () => {
               <BikesList />
             </PrivateRoute>
             <Route exact path='/register'>
+              <div style={{ maxWidth: '300px', lineHeight: '1' }}>
+                <p>
+                  This project uses the&nbsp;
+                  <a href='https://reqres.in/'>ReqRes API</a> for user
+                  authenticaton purposes. To log in or sign up please use one of
+                  their user emails (e.g. <i>eve.holt@reqres.in</i>, any
+                  password will suffice).
+                </p>
+              </div>
               <SignUp />
             </Route>
             <Route exact path='/login'>
+              <div style={{ maxWidth: '300px', lineHeight: '1' }}>
+                <p>
+                  This project uses the&nbsp;
+                  <a href='https://reqres.in/'>ReqRes API</a> for user
+                  authenticaton purposes. To log in or sign up please use one of
+                  their user emails (e.g., <i>eve.holt@reqres.in</i>, any
+                  password will suffice).
+                </p>
+              </div>
               <LogIn />
             </Route>
             <Route path='*'>
