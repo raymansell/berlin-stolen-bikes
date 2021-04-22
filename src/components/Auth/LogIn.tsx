@@ -31,7 +31,6 @@ const LogIn = () => {
   return (
     <div
       className={`${styles['form-container']} ${styles['form-container-login']}`}
-      style={{ marginTop: '5rem' }}
     >
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Welcome back!</h1>

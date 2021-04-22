@@ -14,6 +14,7 @@ import {
   AuthenticationProvider,
   useAuth,
 } from './context/Authentication/AuthenticationContext';
+import Layout from './components/Layout';
 
 interface PrivateRouteProps extends RouteProps {
   children: React.ReactNode;
@@ -43,17 +44,22 @@ const App = () => {
   return (
     <AuthenticationProvider>
       <Router>
-        <Switch>
-          <Route exact path='/register'>
-            <SignUp />
-          </Route>
-          <Route exact path='/login'>
-            <LogIn />
-          </Route>
-          <PrivateRoute exact path='/bikes'>
-            <BikesList />
-          </PrivateRoute>
-        </Switch>
+        <Layout>
+          <Switch>
+            <PrivateRoute exact path='/'>
+              <BikesList />
+            </PrivateRoute>
+            <Route exact path='/register'>
+              <SignUp />
+            </Route>
+            <Route exact path='/login'>
+              <LogIn />
+            </Route>
+            <Route path='*'>
+              <h1>Oops, page not found</h1>
+            </Route>
+          </Switch>
+        </Layout>
       </Router>
     </AuthenticationProvider>
   );

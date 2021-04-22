@@ -3,7 +3,7 @@ import { LoginInputFields, SignupInputFields } from '../../types';
 import authenticationReducer from './AuthenticationReducer';
 import { State, Dispatch, User } from './types';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_REQRES_API;
 
 const user: User = localStorage.getItem('user')
   ? JSON.parse(localStorage.getItem('user') || '{}')

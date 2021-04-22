@@ -42,8 +42,7 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const BASE_URL =
-  'https://bikewise.org:443/api/v2/incidents?per_page=10&incident_type=theft';
+const BASE_URL = process.env.REACT_APP_BIKEWISE_API;
 
 const useFetchBikes = (params: APIParams, page: number): State => {
   const [state, dispatch] = useReducer(reducer, initialState);

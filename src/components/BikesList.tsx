@@ -26,14 +26,7 @@ const BikesList = () => {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <h1>berlin stolen bikes</h1>
+    <>
       <SearchForm params={params} onParamChange={handleParamChange} />
       <BikesPagination
         page={page}
@@ -52,7 +45,7 @@ const BikesList = () => {
         setPage={setPage}
         hasNextPage={hasNextPage}
       />
-    </div>
+    </>
   );
 };
 

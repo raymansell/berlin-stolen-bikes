@@ -21,7 +21,7 @@ const SignUp = () => {
   }
 
   return (
-    <div className={styles['form-container']} style={{ marginTop: '5rem' }}>
+    <div className={styles['form-container']}>
       <form className={styles.form} onSubmit={handleSubmit} noValidate>
         <h1>Get started with us today!</h1>
         {errors?.serverError && (
